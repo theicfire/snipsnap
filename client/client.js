@@ -34,7 +34,7 @@ Template.friends_list.friends = function () {
 	
 	friends.forEach(function (friend) {
 		console.log('friend', friend);
-		if (clickedUsers[friend.user]) {
+		if (clickedUsers[friend.user_id]) {
 			console.log('set green', friend.user);
 			friend.button_class = 'green';
 		} 
@@ -135,10 +135,10 @@ Template.friends_list.events({
 	'click button.user': function (evt) {
 		// toggle state of this.user in users to send
 		var clickedUsers = Session.get('clickedUsers');
-		if (clickedUsers[this.user]) {
-			delete clickedUsers[this.user];
+		if (clickedUsers[this.user_id]) {
+			delete clickedUsers[this.user_id];
 		} else {
-			clickedUsers[this.user] = 1;
+			clickedUsers[this.user_id] = 1;
 		}
 		Session.set('clickedUsers', clickedUsers);
 		console.log('share to ', this.user);
