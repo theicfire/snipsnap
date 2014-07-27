@@ -4,7 +4,7 @@ TempUsers = [{user: 'dog'}, {user: 'cat'}, {user: 'rat'}];
 Snippet = new Meteor.Collection('snippets');
 
 
-// {_id, user_id, href, title, text, founder, user_path}
+// {_id, user_id, href, title, text, founder, user_path,status}
 // Unique is <founder, href, text>
  
 SavedSnippets = new Meteor.Collection('savedsnippets');

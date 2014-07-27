@@ -64,9 +64,10 @@ Template.snippetList.snippets = function () {
 		});
 		
 		return Snippet.find({_id: {$in: snippet_ids}});
+
 		
 	}
-	return Snippet.find({user_id: Session.get('username')});
+	return Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}});
 };
 
 Template.snippetList.events({

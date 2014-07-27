@@ -20,7 +20,8 @@ var share_snip = function(to_user_id, snippet,from_user_id) {
 	var user_path = snippet.user_path;
 	user_path.push(to_user_id);
 	Snippet.upsert({_id: new_snippet_key},{$set: {title: snippet.title, href: snippet.href, text: snippet.text, user_id: to_user_id, user_path: user_path}});
-	// SavedSnippets.upsert({_id: user_key},{$set: {user_id: user_id, snippet_key: snippet_key}});
+	Snippet.update({_id: snippet._id}, {$set: {status: 'shared'}});
+	
 };
 
 var insert_new_snip = function(user_id, title, text, href) {
