@@ -25,13 +25,13 @@ Template.snippetList.snippets = function () {
 
 Template.users.events({
 	'click button': function (evt) {
-		var username = evt.target.dataset['name'];
+		var username = this.user;
 		console.log(username);
 		Session.set('username', username);
 	}
 });
 
-Template.snippets.events({
+Template.buttons.events({
 	"click button.refresh_button" : function (evt) {
 		console.log('called update');
 		// TODO this should be Meteor.userId().. or the server can call that

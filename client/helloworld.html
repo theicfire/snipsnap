@@ -6,6 +6,7 @@
 	{{> users}}
 	{{> loginButtons align="right"}}
 	{{> snippetList}}
+	{{> buttons}}
 </body>
 
 
@@ -31,7 +32,7 @@
 <template name="users">
 Log in as user: 
 {{#each users}}
-	<button data-name='{{user}}' class='users_button_{{user}}'>{{user}}</button>
+	<button data-name='{{user}}'>button is {{user}}</button>
 {{/each}}
 </template>
 
