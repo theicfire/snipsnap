@@ -83,10 +83,15 @@ Template.share_button.events({
 	'click li': function (evt) {
 		// no green shows up
 		Session.set('clickedUsers',{});
-		var snippet = get_all_snippets().fetch();
+		// var snippet = get_all_snippets().fetch();
 
-		console.log('clicked share', snippet);
+		// console.log('clicked share', snippet);
 		Session.set('is_popup', true);
+
+
+		// var snip = Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}}).fetch()[0];
+		var snip = get_all_snippets().fetch()[0];
+		Session.set('current_snippet', snip);
 	}
 });
 
@@ -109,8 +114,14 @@ Template.main_message.popup = function () {
 Template.save_button.events({
 	'click li': function (evt) {
 		console.log('clicked save');
+		console.log('current fetch', Session.get('current_snippet'));
 		var current_post = Session.get('current_snippet');
 		Meteor.call('save_snip',Session.get('username'), current_post.title, current_post.text, current_post.href);
+
+		// var snip = Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}}).fetch()[0];
+		// Session.set('current_snippet', snip);
+		// Snippet.update({_id: snip._id}, {$set: {status: 'shared'}});
+		// console.log('new fetch', snip);
 	}
 });
 
