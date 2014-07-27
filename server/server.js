@@ -13,6 +13,16 @@ var insert_snip = function(user_id, title, text, href) {
 	// SavedSnippets.upsert({_id: user_key},{$set: {user_id: user_id, snippet_key: snippet_key}});
 };
 
+var share_snip = function(to_user_id, snippet,from_user_id) {
+	// var user_key = xxhash.hash(new Buffer(snippet_key + user_id), 0xCAFEBABE).toString(16);
+	var new_snippet_key = getHash(to_user_id, snippet.title, snippet.text, snippet.href);
+
+	var user_path = snippet.user_path;
+	user_path.push(to_user_id);
+	Snippet.upsert({_id: new_snippet_key},{$set: {title: snippet.title, href: snippet.href, text: snippet.text, user_id: to_user_id, user_path: user_path}});
+	// SavedSnippets.upsert({_id: user_key},{$set: {user_id: user_id, snippet_key: snippet_key}});
+};
+
 var insert_new_snip = function(user_id, title, text, href) {
 	insert_snip(user_id, title, text, href);
 };
@@ -103,8 +113,9 @@ Meteor.methods({
 
 		// Insert entry for each share
 		to_user_ids.forEach(function (to_user_id) {
-			insert_snip(to_user_id, snip.title, snip.text, snip.href, from_user_id);
+			share_snip(to_user_id, snip, from_user_id);
 		});
+
 	},
 	get_friends: function() {
 	    graph.get('/176234715918973/members', 

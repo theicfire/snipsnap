@@ -10,10 +10,6 @@ Accounts.ui.config({
 
 // Template Methods
 
-Template.snippetList.snippets = function () {
-    return Snippet.find();
-};
-
 Template.snippetList.id = function () {
 	// return Meteor.userId();
 	return Session.get('username');
@@ -88,6 +84,7 @@ Template.snippetList.events({
 		var to_user_ids = Object.keys(Session.get('clickedUsers'));
 		console.log('sendshare', this, to_user_ids);
 		Meteor.call('share_snip', this._id, Session.get('username'), to_user_ids);
+
 	} 
 });
 
