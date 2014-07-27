@@ -6,13 +6,30 @@ Accounts.ui.config({
   }
 });
 
-Template.snippets.snippets = function (name) {
+Template.snippetList.snippets = function () {
     return Snippet.find();
 };
 
-Template.snippets.id = function (name) {
-	return Meteor.userId();
+Template.snippetList.id = function () {
+	// return Meteor.userId();
+	return Session.get('username');
 };
+
+Template.users.users = function () {
+	return [{user: 'dog'}, {user: 'cat'}, {user: 'rat'}];
+};
+
+Template.snippetList.snippets = function () {
+	return Snippet.find();
+};
+
+Template.users.events({
+	'click button': function (evt) {
+		var username = evt.target.dataset['name'];
+		console.log(username);
+		Session.set('username', username);
+	}
+});
 
 Template.snippets.events({
 	"click button.refresh_button" : function (evt) {

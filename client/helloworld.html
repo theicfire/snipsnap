@@ -3,6 +3,7 @@
 </head>
 
 <body>
+	{{> users}}
 	{{> loginButtons align="right"}}
 	{{> snippetList}}
 </body>
@@ -13,8 +14,6 @@
 	<div>
 		My id is {{id}}
 	</div>
-	<button class='refresh_button'>Refresh</button>
-	<button class='friends_button'>Friends</button>
 	<div class='snippetList'>
 		{{#each snippets}}
 			{{> snippet}}
@@ -26,23 +25,17 @@
 	<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
 	<p>{{text}}</p>
 	<button class="save">Save</button>
+	<button class='share_button'>Share</button>
 </template>
 
+<template name="users">
+Log in as user: 
+{{#each users}}
+	<button data-name='{{user}}' class='users_button_{{user}}'>{{user}}</button>
+{{/each}}
+</template>
 
-<!-- 
-
-<template name="snippetList">
-	<div>
-		{{#each snippets}}
-			<div>title {{title}}</div>
-			<div>href {{href}}</div>
-			<div>text {{text}}</div>
-			<div>from {{from_user}}</div>
-		{{/each}}
-	</div>
-	<div>
-		My id is {{id}}
-	</div>
+<template name="buttons">
 	<button class='refresh_button'>Refresh</button>
 	<button class='friends_button'>Friends</button>
-</template> -->
+</template>

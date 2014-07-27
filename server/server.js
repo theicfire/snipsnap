@@ -47,6 +47,7 @@ Meteor.methods({
 					var text = all[6];
 					var href = results[i]['Actual Text'].href;
 					// var user_id = Meteor.userId();
+					// var user_id = Session.get('username');
 					var user_id = 22;
 					// TODO fix
 					insert_new_snip(user_id, title, text, href);
