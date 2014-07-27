@@ -22,7 +22,27 @@ Template.users.users = function () {
 };
 
 Template.friends_list.friends = function () {
-	return temp_users.filter(function (arg) {return arg != Session.get('username')});
+
+	var clickedUsers = Session.get('clickedUsers');
+	var friends = jQuery.extend(true,[],temp_users)
+
+	friends.filter(function (arg) {return arg != Session.get('username')});
+	
+	temp_users.forEach(function (friend) {
+		console.log('start friends', friend.button_class);
+	});
+
+	friends.forEach(function (friend) {
+		console.log('friend', friend);
+		if (clickedUsers[friend.user]) {
+			console.log('set green', friend.user);
+			friend.button_class = 'green';
+		} 
+
+	});
+	console.log('end friends is', friends);
+	return friends;
+	
 };
 
 Template.friends_list.clicked = function () {
@@ -49,7 +69,8 @@ Template.snippetList.events({
 		});
 	},
 	'click button.share_button': function (evt) {
-		console.log('this');
+		console.log('this', this);
+		Session.set('clickedUsers',{});
 		Session.set('clicked_share_button',this._id);
 	} 
 });
@@ -85,3 +106,16 @@ Template.buttons.events({
 
 });
 
+Template.friends_list.events({
+	'click button.user': function (evt) {
+		// toggle state of this.user in users to send
+		var clickedUsers = Session.get('clickedUsers');
+		if (clickedUsers[this.user]) {
+			delete clickedUsers[this.user];
+		} else {
+			clickedUsers[this.user] = 1;
+		}
+		Session.set('clickedUsers', clickedUsers);
+		console.log('share to ', this.user);
+	}
+});

@@ -31,13 +31,14 @@
 		<button class="save_button">Save</button>
 		<button class='share_button'>Share</button>
 		{{> friends_list}}
+		<button class='send_share_button'>Send!</button>
 	</div>
 </template>
 
 <template name='friends_list'>
 {{#if clicked}}
 	{{#each friends}}
-		<button data-name='{{user}}'>button is {{user}}</button>
+		<button data-name='{{user}}' class='user {{button_class}}'>share {{button_class}} to {{user}}</button>
 	{{/each}}
 {{/if}}
 </template>
@@ -45,7 +46,7 @@
 <template name="users">
 Log in as user: 
 {{#each users}}
-	<button data-name='{{user}}'>button is {{user}}</button>
+	<button data-name='{{user}}'>make user {{user}}</button>
 {{/each}}
 </template>
 
