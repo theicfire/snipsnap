@@ -2,14 +2,41 @@
   <title>SnipSnap!</title>
   <link rel="stylesheet" type="text/css" ref="style.css">
   <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet/less" href="index.less" />
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
+	<script> less.watch(); less.env = "development"; localStorage.clear(); </script>
+
+		<link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
-	{{> users}}
-	{{> loginButtons align="right"}}
-	{{> buttons}}
-	{{> userinfo}}
-	{{> snippetList}}
+
+
+	<!-- {{> users}}
+	
+	
+	
+	{{> snippetList}} -->
+	
+		<div class="screen">
+
+			<div class="screen-main">
+
+				{{> main_message}}
+
+			</div>
+
+			<div class="screen-sidebar">
+				<ul class="sidebar-messages">
+
+					{{> sidebar_messages}}
+
+				</ul>
+			</div>
+
+		</div>
 </body>
 
 <template name='userinfo'>
@@ -31,8 +58,11 @@
 	</div>
 </template>
 
+
+
 <template name='snippet'>
-	<div class='snippetItem'>
+	{{text}}
+	<!-- <div class='snippetItem'>
 		<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
 		<p>{{text}}</p>
 		<p>{{user_path}}</p>
@@ -40,16 +70,16 @@
 		<button class='share_button'>Share</button>
 		{{> friends_list}}
 		<button class='send_share_button'>Send!</button>
-	</div>
+	</div> -->
 </template>
 
 <template name='friends_list'>
 
-{{#if clicked}}
+<!-- {{#if clicked}} -->
 	{{#each friends}}
 		<button data-name='{{user}}' class='user {{button_class}}'>share to {{name}}</button>
 	{{/each}}
-{{/if}}
+<!-- {{/if}} -->
 </template>
 
 <template name="users">
@@ -57,6 +87,13 @@ Log in as user:
 {{#each users}}
 	<button data-name='{{user_id}}'>make user {{name}}</button>
 {{/each}}
+</template>
+
+<template name="first_snippet">
+	
+	{{#each snippets}}
+		{{> snippet}}
+	{{/each}}
 </template>
 
 <template name="buttons">
@@ -67,4 +104,85 @@ Log in as user:
 	<button class='share_screen_button'>Share Screen</button>
 	<button class='save_screen_button'>Save Screen</button>
 </div>
+</template>
+
+<template name="share_button">
+	<li class="button share-button">
+	<span>Share</span>
+	</li>
+</template>
+
+<template name="save_button">
+	<li class="button save-button">
+	<span>Save</span>
+	</li>
+</template>
+
+<template name="send_button">
+	<li class="button send-button">
+	<span>Send</span>
+	</li>
+</template>
+
+<template name='main_message'>
+	{{#if popup}}
+	<div class="main-message">
+		{{> friends_list}}
+	</div>
+	<div class="main-actions">
+		<ul class="actions-buttons">
+
+			{{> save_button}}
+			{{> send_button}}
+			
+
+		</ul>
+	</div>
+	{{else}}
+	<div class="main-message">
+		{{> userinfo}}
+		{{> loginButtons align="right"}}
+		{{> buttons}}
+		<p>{{> first_snippet}}</p>
+
+	</div>
+	<div class="main-actions">
+		<ul class="actions-buttons">
+
+			{{> save_button}}
+			{{> share_button}}
+			
+
+		</ul>
+	</div>
+	
+	{{/if}}
+	
+</template>
+
+<template name="sidebar_messages">
+	{{#each snippetList}}
+		{{> sidebar_message}}
+	{{/each}}
+</template>
+
+<template name="sidebar_message">
+<li class="message">
+	<!-- <div class='snippetItem'>
+		<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
+		<p>{{text}}</p>
+		<p>{{user_path}}</p>
+		<button class="save_button">Save</button>
+		<button class='share_button'>Share</button>
+		{{> friends_list}}
+		<button class='send_share_button'>Send!</button>
+	</div> -->
+
+	<div class="message-author">
+		<div class="author-image"></div>
+	</div>
+
+	<p class="message-excerpt"><h3>hi {{title}}</h3></p>
+	
+</li>
 </template>

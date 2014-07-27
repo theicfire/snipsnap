@@ -27,9 +27,11 @@ Template.users.users = function () {
 };
 
 Template.friends_list.friends = function () {
+	console.log('call friends_list');
+
 	var clickedUsers = Session.get('clickedUsers');
 	var friends = Users.find().fetch();
-	// var friends = jQuery.extend(true,[],TempUsers);
+	
 	// friends.filter(function (arg) {return arg != Session.get('username')});
 	
 	friends.forEach(function (friend) {
@@ -38,20 +40,19 @@ Template.friends_list.friends = function () {
 			console.log('set green', friend.user);
 			friend.button_class = 'green';
 		} 
-
 	});
 	console.log('end friends is', friends);
 	return friends;
 	
 };
 
-Template.friends_list.clicked = function () {
-	// console.log("is clicked?", this);
-	return Session.get('clicked_share_button') == this._id;
-};
+// Template.friends_list.clicked = function () {
+// 	// console.log("is clicked?", this);
+// 	return Session.get('clicked_share_button') == this._id;
+// };
 
 
-Template.snippetList.snippets = function () {
+var get_all_snippets = function () {
 	// var snippets = SavedSnippets.find({user_id: Session.get('username')}).fetch();
 	// console.log('Saved Snippets', snippets);
 	if (Session.get('screen') == 'save') {
@@ -63,12 +64,48 @@ Template.snippetList.snippets = function () {
 			snippet_ids.push(snippet.article_id);
 		});
 		
-		return Snippet.find({_id: {$in: snippet_ids}});
-
-		
+		return Snippet.find({_id: {$in: snippet_ids}});		
 	}
 	return Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}});
 };
+Template.sidebar_messages.snippetList = function() {
+	return get_all_snippets();
+};
+Template.snippetList.snippets = function () {
+	return get_all_snippets();
+};
+
+Template.first_snippet.snippets = function () {
+	return get_all_snippets(); // TODO [0]
+};
+
+Template.share_button.events({
+	'click li': function (evt) {
+		// no green shows up
+		Session.set('clickedUsers',{});
+		var snippet = get_all_snippets().fetch();
+
+		console.log('clicked share', snippet);
+		Session.set('is_popup', true);
+	}
+});
+
+Template.send_button.events({
+	'click li': function (evt) {
+		Session.set('is_popup', false);
+	}
+});
+
+//managing popup screen
+Template.main_message.popup = function () {
+	return Session.get('is_popup');
+};
+
+Template.save_button.events({
+	'click li': function (evt) {
+		console.log('clicked save');
+	}
+});
 
 Template.userinfo.feeds = function() {
 	var ret = [];
@@ -103,7 +140,7 @@ Template.snippetList.events({
 	'click button.share_button': function (evt) {
 		console.log('this', this);
 		Session.set('clickedUsers',{});
-		Session.set('clicked_share_button',this._id);
+		// Session.set('clicked_share_button',this._id);
 	},
 	'click button.send_share_button': function (evt) {
 		var to_user_ids = Object.keys(Session.get('clickedUsers'));
@@ -112,6 +149,8 @@ Template.snippetList.events({
 
 	} 
 });
+
+
 
 Template.users.events({
 	'click button': function (evt) {
@@ -150,6 +189,7 @@ Template.buttons.events({
 
 Template.friends_list.events({
 	'click button.user': function (evt) {
+		console.log('click here', this);
 		// toggle state of this.user in users to send
 		var clickedUsers = Session.get('clickedUsers');
 		if (clickedUsers[this.user_id]) {
@@ -158,7 +198,7 @@ Template.friends_list.events({
 			clickedUsers[this.user_id] = 1;
 		}
 		Session.set('clickedUsers', clickedUsers);
-		console.log('share to ', this.user);
+		console.log('share to ', this.name, clickedUsers);
 	}
 });
 
@@ -166,7 +206,7 @@ Template.userinfo.events({
 	'click button': function (evt) {
 		console.log('this', document.getElementById('feed_url').value);
 		Meteor.call('insert_feed_url', Meteor.userId(),document.getElementById('feed_url').value);
-		
+
 		
 	}
 });
