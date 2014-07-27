@@ -108,6 +108,8 @@ Template.main_message.popup = function () {
 Template.save_button.events({
 	'click li': function (evt) {
 		console.log('clicked save');
+		var current_post = get_all_snippets().fetch()[0];
+		Meteor.call('save_snip',Session.get('username'), current_post.title, current_post.text, current_post.href);
 	}
 });
 
