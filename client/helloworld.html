@@ -10,15 +10,22 @@
 <body>
 	{{> users}}
 	{{> loginButtons align="right"}}
-	{{> snippetList}}
 	{{> buttons}}
+	{{> userinfo}}
+	{{> snippetList}}
 </body>
 
+<template name='userinfo'>
+	<input placeholder="Feed me" id="feed_url"/>
+	<button>Save</button>
+	Feeds: {{#each feeds}}{{feed}}{{/each}}
+</template>
 
 <template name='snippetList'>
 	
 	<div>
-		My id is {{id}}
+
+		My id is {{id}} and my name is {{name}}
 	</div>
 	<div class='snippetList'>
 		{{#each snippets}}
@@ -31,19 +38,36 @@
 	<div class='snippetItem'>
 		<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
 		<p>{{text}}</p>
-		<button class="save">Save</button>
+		<p>{{user_path}}</p>
+		<button class="save_button">Save</button>
 		<button class='share_button'>Share</button>
+		{{> friends_list}}
+		<button class='send_share_button'>Send!</button>
 	</div>
+</template>
+
+<template name='friends_list'>
+
+{{#if clicked}}
+	{{#each friends}}
+		<button data-name='{{user}}' class='user {{button_class}}'>share to {{name}}</button>
+	{{/each}}
+{{/if}}
 </template>
 
 <template name="users">
 Log in as user: 
 {{#each users}}
-	<button data-name='{{user}}'>button is {{user}}</button>
+	<button data-name='{{user_id}}'>make user {{name}}</button>
 {{/each}}
 </template>
 
 <template name="buttons">
+	<div>
 	<button class='refresh_button'>Refresh</button>
+	<button class='delete_button'>Delete :o</button>
 	<button class='friends_button'>Friends</button>
+	<button class='share_screen_button'>Share Screen</button>
+	<button class='save_screen_button'>Save Screen</button>
+</div>
 </template>
