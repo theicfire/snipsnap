@@ -93,6 +93,10 @@ Template.share_button.events({
 Template.send_button.events({
 	'click li': function (evt) {
 		Session.set('is_popup', false);
+		var to_user_ids = Object.keys(Session.get('clickedUsers'));
+		console.log('SENDSHARE to', this, to_user_ids);
+		Meteor.call('share_snip', get_all_snippets().fetch()[0]._id, Session.get('username'), to_user_ids);
+		//first is article ID
 	}
 });
 
