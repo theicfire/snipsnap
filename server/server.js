@@ -1,9 +1,4 @@
 ////server
-var xxhash = Meteor.require('xxhash');
-var graph = Meteor.require('fbgraph');
-
-console.log("im the server too");
-
 var insert_snip = function(user_id, title, text, href, from_user_id) {
 	var totalString = user_id+title+href+text;
 	var snippet_key = xxhash.hash(new Buffer(totalString), 0xCAFEBABE).toString(16);
@@ -36,22 +31,24 @@ Meteor.methods({
 				var results = JSON.parse(result.content).results.collection1;
 
 				// overwrite.. temporary
-				results = [
-					{title: 'title here', text: 'and text', href: 'http://www.google.com'},
-					{title: 'title2', text: 'text2', href: 'http://www.google2.com'}
-				];
-
+				// results = [
+				// {title: 'title here', text: 'and text', href: 'http://www.google.com'},
+				// {title: 'title2', text: 'text2', href: 'http://www.google2.com'}
+				// ]
 
 				for (var i = 0; i < results.length; i++) {
-					// var title = results[i]['Article Title'].text;
-					// var href = results[i]['Article Url'].href;
-					// var text = results[i]['Actual Text'].text;
-					var title = results[i].title;
-					var text = results[i].text;
-					var href = results[i].href;
+					var all = results[i]['Actual Text'].text.split('\n');
+					all.push('');
+					all.push('');
+					all.push('');
+					all.push('');
+					var title = all[0];
+					var date = all[3];
+					var text = all[6];
+					var href = results[i]['Actual Text'].href;
 					// var user_id = Meteor.userId();
-					// TODO fix
 					var user_id = 22;
+					// TODO fix
 					insert_new_snip(user_id, title, text, href);
 				}
 

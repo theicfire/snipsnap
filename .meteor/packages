@@ -7,6 +7,6 @@ standard-app-packages
 autopublish
 insecure
 http
-npm
+all-of-our-npm-dependencies
 accounts-ui
 accounts-facebook

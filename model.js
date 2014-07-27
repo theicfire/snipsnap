@@ -1,6 +1,7 @@
 console.log('both places');
 
-Snippet = new Meteor.Collection('snippets'); 
+Snippet = new Meteor.Collection('snippets');
+
 // {_id, user_id, href, title, text, founder, from_user}
 // Unique is <founder, href, text>
  
