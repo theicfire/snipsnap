@@ -20,8 +20,7 @@ var share_snip = function(to_user_id, snippet,from_user_id) {
 	var user_path = snippet.user_path;
 	user_path.push(to_user_id);
 	Snippet.upsert({_id: new_snippet_key},{$set: {title: snippet.title, href: snippet.href, text: snippet.text, user_id: to_user_id, user_path: user_path}});
-	Snippet.update({_id: snippet._id}, {$set: {status: 'shared'}});
-	
+
 };
 
 var insert_new_snip = function(user_id, title, text, href) {
@@ -116,6 +115,8 @@ Meteor.methods({
 		to_user_ids.forEach(function (to_user_id) {
 			share_snip(to_user_id, snip, from_user_id);
 		});
+		Snippet.update({_id: snip_id}, {$set: {status: 'shared'}});
+	
 
 	},
 	add_user: function(user_id,name) {
