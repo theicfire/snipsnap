@@ -5,7 +5,6 @@ Accounts.ui.config({
   }
 });
 
-
 // Template Methods
 Template.friends_list.friends = function () {
 
@@ -39,9 +38,6 @@ var get_all_snippets = function () {
 Template.sidebar_messages.snippet_sidebar_list = function() {
 	return get_all_snippets();
 };
-// Template.snippetList.snippets = function () {
-// 	return get_all_snippets();
-// };
 
 Template.first_snippet.user = function () {
 	return Session.get('current_snippet');
@@ -98,32 +94,6 @@ Template.userinfo.feeds = function() {
 	return ret;
 };
 
-// Template.snippetList.events({
-// 	'click button.save_button': function (evt) {
-
-// 		Meteor.call('save_snip',this.user_id, this.title, this.text, this.href);
-// 		console.log("saved article", this, SavedSnippets.find());
-		
-// 		SavedSnippets.find().forEach(function (user) {
-// 			console.log('user', user);
-// 		});
-
-// 		SavedSnippets.find({user_id: this.user_id}).forEach(function (user) {
-// 			console.log('saved snip', user);
-// 		});
-// 	},
-// 	'click button.share_button': function (evt) {
-// 		console.log('this', this);
-// 		Session.set('clickedUsers',{});
-// 	},
-// 	'click button.send_share_button': function (evt) {
-// 		var to_user_ids = Object.keys(Session.get('clickedUsers'));
-// 		console.log('sendshare', this, to_user_ids);
-// 		Meteor.call('share_snip', this._id, Session.get('username'), to_user_ids);
-
-// 	} 
-// });
-
 Template.users.events({
 	'click button': function (evt) {
 		var username = this.user;
@@ -156,7 +126,6 @@ Template.buttons.events({
 		
 		Session.set('screen', 'share');
 	}
-
 });
 
 Template.friends_list.events({
