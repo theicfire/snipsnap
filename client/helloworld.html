@@ -3,6 +3,7 @@
 </head>
 
 <body>
+	{{> loginButtons align="right"}}
 	{{> snippets}}
 </body>
 
@@ -13,7 +14,11 @@
 			<div>title {{title}}</div>
 			<div>href {{href}}</div>
 			<div>text {{text}}</div>
+			<div>from {{from_user}}</div>
 		{{/each}}
+	</div>
+	<div>
+		My id is {{id}}
 	</div>
 	<button class='refresh_quotes'>Refresh</button>
 </template>
