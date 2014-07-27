@@ -4,11 +4,32 @@
 
 <body>
 	{{> loginButtons align="right"}}
-	{{> snippets}}
+	{{> snippetList}}
 </body>
 
 
-<template name="snippets">
+<template name='snippetList'>
+	<div class='snippetList'>
+	{{#each snippets}}
+		{{> snippet}}
+	{{/each}}
+	</div>
+	<div>
+		My id is {{id}}
+	</div>
+	<button class='refresh_button'>Refresh</button>
+	<button class='friends_button'>Friends</button>
+</template>
+
+<template name='snippet'>
+	<h3>{{title}}<a href={{url}}>{{text}}</a></h3>
+	<button class="save">Save</button>
+</template>
+
+
+<!-- 
+
+<template name="snippetList">
 	<div>
 		{{#each snippets}}
 			<div>title {{title}}</div>
@@ -22,4 +43,4 @@
 	</div>
 	<button class='refresh_button'>Refresh</button>
 	<button class='friends_button'>Friends</button>
-</template>
+</template> -->

@@ -1,15 +1,15 @@
 ////server
-var insert_snip = function(user_id, title, text, href, from_user_id) {
+var insert_snip = function(user_id, title, text, href) {
 	var totalString = user_id+title+href+text;
 	var snippet_key = xxhash.hash(new Buffer(totalString), 0xCAFEBABE).toString(16);
 	// var user_key = xxhash.hash(new Buffer(snippet_key + user_id), 0xCAFEBABE).toString(16);
 
-	Snippet.upsert({_id: snippet_key},{$set: {title: title, href: href, text: text, from_user_id: null, user_id: user_id}});
+	Snippet.upsert({_id: snippet_key},{$set: {title: title, href: href, text: text, user_id: user_id}, $push:{user_path:user_id}});
 	// Users.upsert({_id: user_key},{$set: {user_id: user_id, snippet_key: snippet_key}});
 };
 
-var insert_new_snip = function(user_id, title, text, href, from_user_id) {
-	insert_snip(user_id, title, text, href, null);
+var insert_new_snip = function(user_id, title, text, href) {
+	insert_snip(user_id, title, text, href);
 };
 
 // Share a snippet
@@ -57,6 +57,10 @@ Meteor.methods({
 					console.log('one oof the texts is', snip);
 				});
 			});
+
+		console.log('Check to see if paths in database have been added');
+		console.log(Snippet.findOne({}));
+
 	},
 	get_friends: function() {
 	    graph.get('/176234715918973/members', 
