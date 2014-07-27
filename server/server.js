@@ -54,7 +54,7 @@ Meteor.methods({
 
 				console.log('ok, all things :)');
 				Snippet.find().forEach(function (snip) {
-					console.log('one oof the texts is', snip);
+					console.log('one of the texts is', snip);
 				});
 			});
 

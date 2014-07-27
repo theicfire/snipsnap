@@ -9,20 +9,22 @@
 
 
 <template name='snippetList'>
-	<div class='snippetList'>
-	{{#each snippets}}
-		{{> snippet}}
-	{{/each}}
-	</div>
+	
 	<div>
 		My id is {{id}}
 	</div>
 	<button class='refresh_button'>Refresh</button>
 	<button class='friends_button'>Friends</button>
+	<div class='snippetList'>
+		{{#each snippets}}
+			{{> snippet}}
+		{{/each}}
+	</div>
 </template>
 
 <template name='snippet'>
-	<h3>{{title}}<a href={{url}}>{{text}}</a></h3>
+	<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
+	<p>{{text}}</p>
 	<button class="save">Save</button>
 </template>
 
