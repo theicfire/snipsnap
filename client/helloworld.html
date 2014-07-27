@@ -89,15 +89,10 @@ Log in as user:
 </template>
 
 <template name="first_snippet">
-	{{user.text}}
+	
 	<div class='snippetItem'>
 		<h3>{{user.title}}</h3><a href="{{user.href}}">{{href}}</a>
-		<!-- <p>{{text}}</p>
-		<p>{{user_path}}</p>
-		<button class="save_button">Save</button>
-		<button class='share_button'>Share</button>
-		{{> friends_list}}
-		<button class='send_share_button'>Send!</button> -->
+		{{user.text}}
 	</div>
 	
 </template>
@@ -173,7 +168,7 @@ Log in as user:
 </template>
 
 <template name="sidebar_message">
-<li class="message">
+<li class="message active-message">
 	<!-- <div class='snippetItem'>
 		<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
 		<p>{{text}}</p>

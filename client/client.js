@@ -96,6 +96,7 @@ Template.send_button.events({
 		var to_user_ids = Object.keys(Session.get('clickedUsers'));
 		console.log('SENDSHARE to', this, to_user_ids);
 		Meteor.call('share_snip', Session.get('current_snippet')._id, Session.get('username'), to_user_ids);
+		// Session.set('current_snippet', get_all_snippets().fetch()[0]);
 		//first is article ID
 	}
 });
