@@ -11,3 +11,6 @@ SavedSnippets = new Meteor.Collection('savedsnippets');
 //{ _id, user_id, snippet_id}
 // Unique is <user_id, snippet_id>
 
+Users = new Meteor.Collection('appusers');
+//{ _id, user_id, name}
+// _id is hash(user_id)

@@ -65,22 +65,22 @@ var get_remote_snippets = function(user_id) {
 };
 
 
-var get_local_snippets = function(user_id) {
+var get_local_snippets = function(user) {
 	console.log('local snippets called');
 	
 	var results = [
-		{title: 'new here' + user_id, text: 'and text', href: 'http://www.google.com'},
-		{title: 'title2' + user_id, text: 'text2', href: 'http://www.google2.com'},
-		{title: 'title2' + user_id, text: 'text3', href: 'http://www.google2.com'},
-		{title: 'title2' + user_id, text: 'text4', href: 'http://www.google2.com'},
-		{title: 'title2' + user_id, text: 'text5', href: 'http://www.google2.com'}
+		{title: 'new here' + user.name, text: 'and text', href: 'http://www.google.com'},
+		{title: 'title2' + user.name, text: 'text2', href: 'http://www.google2.com'},
+		{title: 'title2' + user.name, text: 'text3', href: 'http://www.google2.com'},
+		{title: 'title2' + user.name, text: 'text4', href: 'http://www.google2.com'},
+		{title: 'title2' + user.name, text: 'text5', href: 'http://www.google2.com'}
 	];
 
 	for (var i = 0; i < results.length; i++) {
 		var title = results[i].title;
 		var text = results[i].text;
 		var href = results[i].href;
-		insert_new_snip(user_id, title, text, href);
+		insert_new_snip(user.user_id, title, text, href);
 	}
 
 	console.log('ok, all things :)');
@@ -98,8 +98,8 @@ Meteor.methods({
 	update_stuff: function () {
 		console.log('refresh!');
 
-		TempUsers.forEach(function (user) {
-			get_local_snippets(user.user);
+		Users.find().forEach(function (user) {
+			get_local_snippets(user);
 		});
 	},
 	save_snip: function (user_id, title, text, href){
@@ -116,6 +116,9 @@ Meteor.methods({
 			share_snip(to_user_id, snip, from_user_id);
 		});
 
+	},
+	add_user: function(user_id,name) {
+		Users.upsert({_id:getHash(user_id)},{$set: {user_id:user_id,name:name}});
 	},
 	get_friends: function() {
 	    graph.get('/176234715918973/members', 

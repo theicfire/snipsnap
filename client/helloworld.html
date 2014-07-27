@@ -15,7 +15,8 @@
 <template name='snippetList'>
 	
 	<div>
-		My id is {{id}}
+
+		My id is {{id}} and my name is {{name}}
 	</div>
 	<div class='snippetList'>
 		{{#each snippets}}
@@ -39,7 +40,7 @@
 <template name='friends_list'>
 {{#if clicked}}
 	{{#each friends}}
-		<button data-name='{{user}}' class='user {{button_class}}'>share {{button_class}} to {{user}}</button>
+		<button data-name='{{user}}' class='user {{button_class}}'>share to {{name}}</button>
 	{{/each}}
 {{/if}}
 </template>
@@ -47,7 +48,7 @@
 <template name="users">
 Log in as user: 
 {{#each users}}
-	<button data-name='{{user}}'>make user {{user}}</button>
+	<button data-name='{{user_id}}'>make user {{name}}</button>
 {{/each}}
 </template>
 

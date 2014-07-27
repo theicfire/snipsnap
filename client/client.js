@@ -10,19 +10,27 @@ Accounts.ui.config({
 
 // Template Methods
 
+Template.snippetList.name = function () {
+	if (Meteor.userId() && Meteor.user()) {
+		return Meteor.user().profile.name;	
+	}
+	return 'nonexistent';
+};
+
 Template.snippetList.id = function () {
 	// return Meteor.userId();
 	return Session.get('username');
 };
 
 Template.users.users = function () {
-	return TempUsers;
+	return Users.find();
 };
 
 Template.friends_list.friends = function () {
 	var clickedUsers = Session.get('clickedUsers');
-	var friends = jQuery.extend(true,[],TempUsers);
-	friends.filter(function (arg) {return arg != Session.get('username')});
+	var friends = Users.find().fetch();
+	// var friends = jQuery.extend(true,[],TempUsers);
+	// friends.filter(function (arg) {return arg != Session.get('username')});
 	
 	friends.forEach(function (friend) {
 		console.log('friend', friend);
@@ -135,4 +143,15 @@ Template.friends_list.events({
 		Session.set('clickedUsers', clickedUsers);
 		console.log('share to ', this.user);
 	}
+});
+
+Deps.autorun(function (){
+	console.log(Meteor.user());
+	Session.set('username', Meteor.userId());
+	if (Meteor.userId() && Meteor.user()) {
+		console.log('logged in', Meteor.userId());
+		console.log('logged in', Meteor.user());
+		Meteor.call('add_user',Meteor.userId(),Meteor.user().profile.name);
+	}
+	
 });
