@@ -70,6 +70,22 @@ Template.snippetList.snippets = function () {
 	return Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}});
 };
 
+Template.userinfo.feeds = function() {
+	var ret = [];
+	var user = Users.findOne({user_id:Meteor.userId()});
+
+	if (user) {
+		console.log(user);
+		if (user.feeds) {
+			user.feeds.forEach(function (feed) {
+				ret.push({feed: feed});
+			});
+		}
+	}
+	
+	return ret;
+};
+
 Template.snippetList.events({
 	'click button.save_button': function (evt) {
 
@@ -143,6 +159,15 @@ Template.friends_list.events({
 		}
 		Session.set('clickedUsers', clickedUsers);
 		console.log('share to ', this.user);
+	}
+});
+
+Template.userinfo.events({
+	'click button': function (evt) {
+		console.log('this', document.getElementById('feed_url').value);
+		Meteor.call('insert_feed_url', Meteor.userId(),document.getElementById('feed_url').value);
+		
+		
 	}
 });
 

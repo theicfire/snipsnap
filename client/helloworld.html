@@ -7,10 +7,16 @@
 <body>
 	{{> users}}
 	{{> loginButtons align="right"}}
-	{{> snippetList}}
 	{{> buttons}}
+	{{> userinfo}}
+	{{> snippetList}}
 </body>
 
+<template name='userinfo'>
+	<input placeholder="Feed me" id="feed_url"/>
+	<button>Save</button>
+	Feeds: {{#each feeds}}{{feed}}{{/each}}
+</template>
 
 <template name='snippetList'>
 	
@@ -38,6 +44,7 @@
 </template>
 
 <template name='friends_list'>
+
 {{#if clicked}}
 	{{#each friends}}
 		<button data-name='{{user}}' class='user {{button_class}}'>share to {{name}}</button>
@@ -53,9 +60,11 @@ Log in as user:
 </template>
 
 <template name="buttons">
+	<div>
 	<button class='refresh_button'>Refresh</button>
 	<button class='delete_button'>Delete :o</button>
 	<button class='friends_button'>Friends</button>
 	<button class='share_screen_button'>Share Screen</button>
 	<button class='save_screen_button'>Save Screen</button>
+</div>
 </template>

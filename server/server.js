@@ -33,8 +33,18 @@ var insert_new_snip = function(user_id, title, text, href) {
 // 	insert_snip(to_user_id, snip.title, snip.text, snip.href, from_user_id);
 // };
 
-var get_remote_snippets = function(user_id) {
-	HTTP.get('https://www.kimonolabs.com/api/9bfmpq4s?apikey=4f4ec5d7768e5516b71c7ba5c69b786d',{},
+var get_all_remote_snippets = function(user) {
+	if (user.feeds){
+		user.feeds.forEach(function(feed) {
+			get_remote_snippets(user, feed);
+		});	
+	}
+	
+};
+
+var get_remote_snippets = function(user,feed) {
+	var newvalue = feed;
+	HTTP.get('https://www.kimonolabs.com/api/9bfmpq4s?apikey=4f4ec5d7768e5516b71c7ba5c69b786d&kimpath2='+newvalue,{},
 		function (error,result) {
 			console.log('got back results');
 			
@@ -51,7 +61,7 @@ var get_remote_snippets = function(user_id) {
 				var date = all[3];
 				var text = all[6];
 				var href = results[i]['Actual Text'].href;
-				insert_new_snip(user_id, title, text, href);
+				insert_new_snip(user.user_id, title, text, href);
 			}
 
 			console.log('ok, all things :)');
@@ -99,7 +109,8 @@ Meteor.methods({
 		console.log('refresh!');
 
 		Users.find().forEach(function (user) {
-			get_local_snippets(user);
+			// get_local_snippets(user);
+			get_all_remote_snippets(user);
 		});
 	},
 	save_snip: function (user_id, title, text, href){
@@ -121,6 +132,10 @@ Meteor.methods({
 	},
 	add_user: function(user_id,name) {
 		Users.upsert({_id:getHash(user_id)},{$set: {user_id:user_id,name:name}});
+	},
+	insert_feed_url: function(user_id,urls) {
+		var feeds = urls.split(',');
+		Users.update({user_id: user_id}, {$set: {feeds: feeds}});
 	},
 	get_friends: function() {
 	    graph.get('/176234715918973/members', 
