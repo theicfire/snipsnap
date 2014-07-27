@@ -34,7 +34,8 @@ Template.users.events({
 Template.snippets.events({
 	"click button.refresh_button" : function (evt) {
 		console.log('called update');
-		Meteor.call('update_stuff');
+		// TODO this should be Meteor.userId().. or the server can call that
+		Meteor.call('update_stuff', Session.get('username'));
 	},
 	"click button.friends_button" : function (evt) {
 		console.log('friends button');
