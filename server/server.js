@@ -95,7 +95,7 @@ Meteor.methods({
 	save_snip: function (user_id, title, text, href){
 		var hash=getHash(user_id, title, text, href);
 		
-		SavedSnippets.insert({_id: getHash(user_id.toString()+hash),article_id:hash});
+		SavedSnippets.insert({_id: getHash(user_id.toString()+hash),article_id:hash,user_id:user_id});
 	},
 	share_snip: function (snip_id, from_user_id, to_user_ids){
 		console.log('share call', snip_id, from_user_id, to_user_ids);

@@ -48,8 +48,20 @@ Template.friends_list.clicked = function () {
 
 
 Template.snippetList.snippets = function () {
-	var snippets = SavedSnippets.find({_id: Session.get('username')}).fetch();
-	console.log('Saved Snippets', snippets);
+	// var snippets = SavedSnippets.find({user_id: Session.get('username')}).fetch();
+	// console.log('Saved Snippets', snippets);
+	if (Session.get('screen') == 'save') {
+		var snippets = SavedSnippets.find({user_id: Session.get('username')});
+		
+		var snippet_ids = [];
+
+		snippets.forEach(function (snippet) {
+			snippet_ids.push(snippet.article_id);
+		});
+		
+		return Snippet.find({_id: {$in: snippet_ids}});
+		
+	}
 	return Snippet.find({user_id: Session.get('username')});
 };
 
@@ -61,6 +73,10 @@ Template.snippetList.events({
 		
 		SavedSnippets.find().forEach(function (user) {
 			console.log('user', user);
+		});
+
+		SavedSnippets.find({user_id: this.user_id}).forEach(function (user) {
+			console.log('saved snip', user);
 		});
 	},
 	'click button.share_button': function (evt) {
