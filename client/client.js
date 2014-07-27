@@ -7,6 +7,9 @@ Accounts.ui.config({
   }
 });
 
+
+// Template Methods
+
 Template.snippetList.snippets = function () {
     return Snippet.find();
 };
@@ -16,22 +19,15 @@ Template.snippetList.id = function () {
 	return Session.get('username');
 };
 
-var temp_users = [{user: 'dog'}, {user: 'cat'}, {user: 'rat'}];
 Template.users.users = function () {
-	return temp_users;
+	return TempUsers;
 };
 
 Template.friends_list.friends = function () {
-
 	var clickedUsers = Session.get('clickedUsers');
-	var friends = jQuery.extend(true,[],temp_users)
-
+	var friends = jQuery.extend(true,[],TempUsers);
 	friends.filter(function (arg) {return arg != Session.get('username')});
 	
-	temp_users.forEach(function (friend) {
-		console.log('start friends', friend.button_class);
-	});
-
 	friends.forEach(function (friend) {
 		console.log('friend', friend);
 		if (clickedUsers[friend.user]) {
@@ -52,16 +48,15 @@ Template.friends_list.clicked = function () {
 
 
 Template.snippetList.snippets = function () {
-	console.log('snippets user id', Session.get('username'));
 	var snippets = SavedSnippets.find({_id: Session.get('username')}).fetch();
-	console.log('snippets', snippets);
-	return Snippet.find();
+	console.log('Saved Snippets', snippets);
+	return Snippet.find({user_id: Session.get('username')});
 };
 
 Template.snippetList.events({
 	'click button.save_button': function (evt) {
 
-		Meteor.call('save_article',this.user_id, this.title, this.text, this.href);
+		Meteor.call('save_snip',this.user_id, this.title, this.text, this.href);
 		console.log("saved article", this, SavedSnippets.find());
 		
 		SavedSnippets.find().forEach(function (user) {
@@ -72,6 +67,11 @@ Template.snippetList.events({
 		console.log('this', this);
 		Session.set('clickedUsers',{});
 		Session.set('clicked_share_button',this._id);
+	},
+	'click button.send_share_button': function (evt) {
+		var to_user_ids = Object.keys(Session.get('clickedUsers'));
+		console.log('sendshare', this, to_user_ids);
+		Meteor.call('share_snip', this._id, Session.get('username'), to_user_ids);
 	} 
 });
 
@@ -88,7 +88,11 @@ Template.buttons.events({
 	"click button.refresh_button" : function (evt) {
 		console.log('called update');
 		// TODO this should be Meteor.userId().. or the server can call that
-		Meteor.call('update_stuff', Session.get('username'));
+		Meteor.call('update_stuff');
+	},
+	"click button.delete_button" : function (evt) {
+		console.log('delete');
+		Meteor.call('clear_db');
 	},
 	"click button.friends_button" : function (evt) {
 		console.log('friends button');

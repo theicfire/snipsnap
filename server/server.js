@@ -18,10 +18,10 @@ var insert_new_snip = function(user_id, title, text, href) {
 };
 
 // Share a snippet
-var share_snip = function(snip_id, from_user_id, to_user_id) {
-	var snip = Snippet.findOne({_id: snip_id});
-	insert_snip(to_user_id, snip.title, snip.text, snip.href, from_user_id);
-};
+// var share_snip = function(snip_id, from_user_id, to_user_id) {
+// 	var snip = Snippet.findOne({_id: snip_id});
+// 	insert_snip(to_user_id, snip.title, snip.text, snip.href, from_user_id);
+// };
 
 var get_remote_snippets = function(user_id) {
 	HTTP.get('https://www.kimonolabs.com/api/9bfmpq4s?apikey=4f4ec5d7768e5516b71c7ba5c69b786d',{},
@@ -80,21 +80,31 @@ var get_local_snippets = function(user_id) {
 };
 
 Meteor.methods({
-	update_stuff: function (username) {
-		console.log('refresh!');
-		// TODO remove.. but for now delete everything
+	clear_db: function () {
+		console.log('delete all');
 		Snippet.remove({});
 		SavedSnippets.remove({});
-
-		// TODO change to Meteor.userId().. for now we are faking usernames
-		var user_id = username;
-
-		get_local_snippets(user_id);
 	},
-	save_article: function (user_id, title, text, href){
+	update_stuff: function () {
+		console.log('refresh!');
+
+		TempUsers.forEach(function (user) {
+			get_local_snippets(user.user);
+		});
+	},
+	save_snip: function (user_id, title, text, href){
 		var hash=getHash(user_id, title, text, href);
 		
 		SavedSnippets.insert({_id: getHash(user_id.toString()+hash),article_id:hash});
+	},
+	share_snip: function (snip_id, from_user_id, to_user_ids){
+		console.log('share call', snip_id, from_user_id, to_user_ids);
+		var snip = Snippet.findOne({_id: snip_id});
+
+		// Insert entry for each share
+		to_user_ids.forEach(function (to_user_id) {
+			insert_snip(to_user_id, snip.title, snip.text, snip.href, from_user_id);
+		});
 	},
 	get_friends: function() {
 	    graph.get('/176234715918973/members', 

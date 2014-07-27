@@ -1,5 +1,6 @@
 console.log('both places');
 
+TempUsers = [{user: 'dog'}, {user: 'cat'}, {user: 'rat'}];
 Snippet = new Meteor.Collection('snippets');
 
 
