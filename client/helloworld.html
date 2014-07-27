@@ -1,16 +1,19 @@
 <head>
-  <title>Word play!</title>
+  <title>SnipSnap!</title>
 </head>
 
 <body>
-	{{> first}}
-
+	{{> snippets}}
 </body>
 
 
-<template name="first">
+<template name="snippets">
 	<div>
-		hello {{name}}
+		{{#each snippets}}
+			<div>title {{title}}</div>
+			<div>href {{href}}</div>
+			<div>text {{text}}</div>
+		{{/each}}
 	</div>
 	<button class='refresh_quotes'>Refresh</button>
 </template>

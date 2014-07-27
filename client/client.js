@@ -1,11 +1,10 @@
 console.log('Im the client');
 
-Template.first.name = function (name) {
-    return 'Max';
-
+Template.snippets.snippets = function (name) {
+    return Snippet.find();
 };
 
-Template.first.events({
+Template.snippets.events({
 	"click" : function (evt) {
 		console.log('called update');
 		Meteor.call('update_stuff');
