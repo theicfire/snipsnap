@@ -10,21 +10,21 @@ Accounts.ui.config({
 
 // Template Methods
 
-Template.snippetList.name = function () {
-	if (Meteor.userId() && Meteor.user()) {
-		return Meteor.user().profile.name;	
-	}
-	return 'nonexistent';
-};
+// Template.snippetList.name = function () {
+// 	// if (Meteor.userId() && Meteor.user()) {
+// 	// 	return Meteor.user().profile.name;	
+// 	// }
+// 	return 'nonexistent';
+// };
 
-Template.snippetList.id = function () {
-	// return Meteor.userId();
-	return Session.get('username');
-};
+// Template.snippetList.id = function () {
+// 	// return Meteor.userId();
+// 	return Session.get('username');
+// };
 
-Template.users.users = function () {
-	return Users.find();
-};
+// Template.users.users = function () {
+// 	return Users.find();
+// };
 
 Template.friends_list.friends = function () {
 	console.log('call friends_list');
@@ -68,15 +68,15 @@ var get_all_snippets = function () {
 	}
 	return Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}});
 };
-Template.sidebar_messages.snippetList = function() {
+Template.sidebar_messages.snippet_sidebar_list = function() {
 	return get_all_snippets();
 };
 Template.snippetList.snippets = function () {
 	return get_all_snippets();
 };
 
-Template.first_snippet.snippets = function () {
-	return get_all_snippets(); // TODO [0]
+Template.first_snippet.user = function () {
+	return get_all_snippets().fetch()[0];
 };
 
 Template.share_button.events({

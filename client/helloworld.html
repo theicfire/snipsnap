@@ -46,31 +46,30 @@
 </template>
 
 <template name='snippetList'>
-	
+	<!-- 
 	<div>
-
 		My id is {{id}} and my name is {{name}}
 	</div>
 	<div class='snippetList'>
 		{{#each snippets}}
 			{{> snippet}}
 		{{/each}}
-	</div>
+	</div> -->
 </template>
 
 
 
 <template name='snippet'>
 	{{text}}
-	<!-- <div class='snippetItem'>
+	<div class='snippetItem'>
 		<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
-		<p>{{text}}</p>
+		<!-- <p>{{text}}</p>
 		<p>{{user_path}}</p>
 		<button class="save_button">Save</button>
 		<button class='share_button'>Share</button>
 		{{> friends_list}}
-		<button class='send_share_button'>Send!</button>
-	</div> -->
+		<button class='send_share_button'>Send!</button> -->
+	</div>
 </template>
 
 <template name='friends_list'>
@@ -90,10 +89,17 @@ Log in as user:
 </template>
 
 <template name="first_snippet">
+	{{user.text}}
+	<div class='snippetItem'>
+		<h3>{{user.title}}</h3><a href="{{user.href}}">{{href}}</a>
+		<!-- <p>{{text}}</p>
+		<p>{{user_path}}</p>
+		<button class="save_button">Save</button>
+		<button class='share_button'>Share</button>
+		{{> friends_list}}
+		<button class='send_share_button'>Send!</button> -->
+	</div>
 	
-	{{#each snippets}}
-		{{> snippet}}
-	{{/each}}
 </template>
 
 <template name="buttons">
@@ -161,7 +167,7 @@ Log in as user:
 </template>
 
 <template name="sidebar_messages">
-	{{#each snippetList}}
+	{{#each snippet_sidebar_list}}
 		{{> sidebar_message}}
 	{{/each}}
 </template>
