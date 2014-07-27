@@ -1,5 +1,7 @@
 ////server
 var xxhash = Meteor.require('xxhash');
+var graph = Meteor.require('fbgraph');
+
 console.log("im the server too");
 
 var insert_snip = function(user_id, title, text, href, from_user_id) {
@@ -58,5 +60,13 @@ Meteor.methods({
 					console.log('one oof the texts is', snip);
 				});
 			});
+	},
+	get_friends: function() {
+	    graph.get('/176234715918973/members', 
+	        {fields: 'last_name,first_name,picture', 'type': 'large', 
+	            access_token: Meteor.user().services.facebook.accessToken}, 
+	        function(err, result) {
+	        	console.log('fbres', result);
+	        });
 	}
 });
