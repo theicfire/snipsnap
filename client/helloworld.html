@@ -1,5 +1,7 @@
 <head>
   <title>SnipSnap!</title>
+  <link rel="stylesheet" type="text/css" ref="style.css">
+  <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -22,11 +24,14 @@
 	</div>
 </template>
 
-<template name='snippet'>
-	<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
-	<p>{{text}}</p>
-	<button class="save">Save</button>
-</template>
+
+	<template name='snippet'>
+		<div class='snippetItem'>
+			<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
+			<p>{{text}}</p>
+			<button class="save">Save</button>
+		</div>
+	</template>
 
 
 <!-- 

@@ -1,0 +1,43 @@
+body{
+	font-family: Helvetica;
+}
+
+a{
+	font-family: Courier;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+a:hover{
+	background: #d4cc67;
+}
+
+p{
+	font-family: Optima;
+	font-size: 16px;
+	line-height: 23px;
+	color: #404040;
+}
+
+h3{
+	font-family: 'Patua One', cursive;
+	font-size: 25px;
+	/*border-left: 3px solid #696969;*/
+}
+
+.snippetItem {
+	background: #e6e5d4;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.snippetList{
+	width: 40%;
+}
+
+button .save{
+	background: red;
+}
