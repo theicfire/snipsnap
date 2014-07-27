@@ -22,9 +22,17 @@ Meteor.startup(function () {
 						var href = results[i]['Article Url'].href;
 						var text = results[i]['Actual Text'].text;
 						var totalString = title+href+text;
-						// console.log(XXHash.hash(totalString, 0xCAFEBABE));
+						var unique_key = xxhash.hash(new Buffer(totalString), 0xCAFEBABE).toString(16);
+						Snippet.upsert({_id: unique_key},{$set: {title: title, href: href, text: text}});
 
+						console.log('getting everything');
 					}
+
+					Snippet.find().forEach(function (snip) {
+						console.log('one oof the texts is', snip);
+					});
+
+
 				});
 		}
 	});
