@@ -30,7 +30,16 @@
 		<p>{{text}}</p>
 		<button class="save_button">Save</button>
 		<button class='share_button'>Share</button>
+		{{> friends_list}}
 	</div>
+</template>
+
+<template name='friends_list'>
+{{#if clicked}}
+	{{#each friends}}
+		<button data-name='{{user}}'>button is {{user}}</button>
+	{{/each}}
+{{/if}}
 </template>
 
 <template name="users">

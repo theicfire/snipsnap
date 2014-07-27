@@ -16,9 +16,20 @@ Template.snippetList.id = function () {
 	return Session.get('username');
 };
 
+var temp_users = [{user: 'dog'}, {user: 'cat'}, {user: 'rat'}];
 Template.users.users = function () {
-	return [{user: 'dog'}, {user: 'cat'}, {user: 'rat'}];
+	return temp_users;
 };
+
+Template.friends_list.friends = function () {
+	return temp_users.filter(function (arg) {return arg != Session.get('username')});
+};
+
+Template.friends_list.clicked = function () {
+	// console.log("is clicked?", this);
+	return Session.get('clicked_share_button') == this._id;
+};
+
 
 Template.snippetList.snippets = function () {
 	console.log('snippets user id', Session.get('username'));
@@ -36,7 +47,11 @@ Template.snippetList.events({
 		SavedSnippets.find().forEach(function (user) {
 			console.log('user', user);
 		});
-	}
+	},
+	'click button.share_button': function (evt) {
+		console.log('this');
+		Session.set('clicked_share_button',this._id);
+	} 
 });
 
 Template.users.events({
