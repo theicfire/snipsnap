@@ -76,7 +76,7 @@ Template.snippetList.snippets = function () {
 };
 
 Template.first_snippet.user = function () {
-	return get_all_snippets().fetch()[0];
+	return Session.get('current_snippet');
 };
 
 Template.share_button.events({
@@ -95,7 +95,7 @@ Template.send_button.events({
 		Session.set('is_popup', false);
 		var to_user_ids = Object.keys(Session.get('clickedUsers'));
 		console.log('SENDSHARE to', this, to_user_ids);
-		Meteor.call('share_snip', get_all_snippets().fetch()[0]._id, Session.get('username'), to_user_ids);
+		Meteor.call('share_snip', Session.get('current_snippet')._id, Session.get('username'), to_user_ids);
 		//first is article ID
 	}
 });
@@ -108,7 +108,7 @@ Template.main_message.popup = function () {
 Template.save_button.events({
 	'click li': function (evt) {
 		console.log('clicked save');
-		var current_post = get_all_snippets().fetch()[0];
+		var current_post = Session.get('current_snippet');
 		Meteor.call('save_snip',Session.get('username'), current_post.title, current_post.text, current_post.href);
 	}
 });
@@ -211,9 +211,14 @@ Template.friends_list.events({
 Template.userinfo.events({
 	'click button': function (evt) {
 		console.log('this', document.getElementById('feed_url').value);
-		Meteor.call('insert_feed_url', Meteor.userId(),document.getElementById('feed_url').value);
+		Meteor.call('insert_feed_url', Meteor.userId(),document.getElementById('feed_url').value);	
+	}
+});
 
-		
+Template.sidebar_message.events({
+	'click li': function (evt) {
+		console.log('clicked', this);
+		Session.set('current_snippet', this);
 	}
 });
 
