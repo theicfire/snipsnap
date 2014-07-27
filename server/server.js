@@ -7,14 +7,11 @@ var getHash = function(user_id, title, text, href) {
 };
 
 var insert_snip = function(user_id, title, text, href) {
-	// var user_key = xxhash.hash(new Buffer(snippet_key + user_id), 0xCAFEBABE).toString(16);
 	var snippet_key = getHash(user_id, title, text, href);
 	Snippet.upsert({_id: snippet_key},{$set: {title: title, href: href, text: text, user_id: user_id}, $push:{user_path:user_id}});
-	// SavedSnippets.upsert({_id: user_key},{$set: {user_id: user_id, snippet_key: snippet_key}});
 };
 
 var share_snip = function(to_user_id, snippet,from_user_id) {
-	// var user_key = xxhash.hash(new Buffer(snippet_key + user_id), 0xCAFEBABE).toString(16);
 	var new_snippet_key = getHash(to_user_id, snippet.title, snippet.text, snippet.href);
 
 	var user_path = snippet.user_path;
@@ -27,19 +24,12 @@ var insert_new_snip = function(user_id, title, text, href) {
 	insert_snip(user_id, title, text, href);
 };
 
-// Share a snippet
-// var share_snip = function(snip_id, from_user_id, to_user_id) {
-// 	var snip = Snippet.findOne({_id: snip_id});
-// 	insert_snip(to_user_id, snip.title, snip.text, snip.href, from_user_id);
-// };
-
 var get_all_remote_snippets = function(user) {
 	if (user.feeds){
 		user.feeds.forEach(function(feed) {
 			get_remote_snippets(user, feed);
 		});	
 	}
-	
 };
 
 var get_remote_snippets = function(user,feed) {
@@ -63,14 +53,6 @@ var get_remote_snippets = function(user,feed) {
 				var href = results[i]['Actual Text'].href;
 				insert_new_snip(user.user_id, title, text, href);
 			}
-
-			console.log('ok, all things :)');
-			Snippet.find().forEach(function (snip) {
-				console.log('one oof the texts is', snip);
-			});
-
-			console.log('Check to see if paths in database have been added');
-			console.log(Snippet.findOne({}));
 		});
 };
 
@@ -92,11 +74,6 @@ var get_local_snippets = function(user) {
 		var href = results[i].href;
 		insert_new_snip(user.user_id, title, text, href);
 	}
-
-	console.log('ok, all things :)');
-	Snippet.find().forEach(function (snip) {
-		console.log('one oof the texts is', snip);
-	});
 };
 
 Meteor.methods({
@@ -109,17 +86,13 @@ Meteor.methods({
 		console.log('refresh!');
 
 		Users.find().forEach(function (user) {
-			// get_local_snippets(user);
-			get_all_remote_snippets(user);
 		});
 	},
 	save_snip: function (user_id, title, text, href){
 		var hash=getHash(user_id, title, text, href);
-		
 		SavedSnippets.insert({_id: getHash(user_id.toString()+hash),article_id:hash,user_id:user_id});
 	},
 	share_snip: function (snip_id, from_user_id, to_user_ids){
-		console.log('share call', snip_id, from_user_id, to_user_ids);
 		var snip = Snippet.findOne({_id: snip_id});
 
 		// Insert entry for each share
@@ -127,8 +100,6 @@ Meteor.methods({
 			share_snip(to_user_id, snip, from_user_id);
 		});
 		Snippet.update({_id: snip_id}, {$set: {status: 'shared'}});
-	
-
 	},
 	add_user: function(user_id,name) {
 		Users.upsert({_id:getHash(user_id)},{$set: {user_id:user_id,name:name}});
