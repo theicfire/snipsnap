@@ -68,22 +68,16 @@ Template.main_message.popup = function () {
 	return Session.get('is_popup');
 };
 
-Template.save_button.events({
-	'click li': function (evt) {
-		var current_post = Session.get('current_snippet');
-		Meteor.call('save_snip',Session.get('username'), current_post.title, current_post.text, current_post.href);
-	}
-});
 
-Template.userinfo.users = function() {
+Template.userinfo.feeds = function() {
 	var user = Users.findOne({user_id:Meteor.userId()});
 	return user ? user.feeds : [];
 };
 
-Template.users.events({
-	'click button': function (evt) {
-		var username = this.user;
-		Session.set('username', username);
+Template.save_button.events({
+	'click li': function (evt) {
+		var current_post = Session.get('current_snippet');
+		Meteor.call('save_snip',Session.get('username'), current_post.title, current_post.text, current_post.href);
 	}
 });
 

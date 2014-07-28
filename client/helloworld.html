@@ -27,7 +27,7 @@
 <template name='userinfo'>
 	<input placeholder="Feed me" id="feed_url"/>
 	<button>Save</button>
-	Feeds: {{#each users}}{{this}}{{/each}}
+	Feeds: {{#each feeds}}{{this}}{{/each}}
 </template>
 
 
@@ -42,13 +42,6 @@
 	{{#each friends}}
 		<button data-name='{{user}}' class='user {{button_class}}'>share to {{name}}</button>
 	{{/each}}
-</template>
-
-<template name="users">
-Log in as user: 
-{{#each users}}
-	<button data-name='{{user_id}}'>make user {{name}}</button>
-{{/each}}
 </template>
 
 <template name="first_snippet">
