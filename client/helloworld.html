@@ -12,43 +12,23 @@
 </head>
 
 <body>
-
-
-	<!-- {{> users}}
-	
-	
-	
-	{{> snippetList}} -->
-	
 		<div class="screen">
-
 			<div class="screen-main">
-
 				{{> main_message}}
-
 			</div>
-
 			<div class="screen-sidebar">
 				<ul class="sidebar-messages">
-
 					{{> sidebar_messages}}
-
 				</ul>
 			</div>
-
 		</div>
 </body>
 
 <template name='userinfo'>
 	<input placeholder="Feed me" id="feed_url"/>
 	<button>Save</button>
-	Feeds: {{#each feeds}}{{feed}}{{/each}}
+	Feeds: {{#each users}}{{this}}{{/each}}
 </template>
-
-<template name='snippetList'>
-
-</template>
-
 
 
 <template name='snippet'>
@@ -72,12 +52,10 @@ Log in as user:
 </template>
 
 <template name="first_snippet">
-	
 	<div class='snippetItem'>
 		<h3>{{snippet.title}}</h3><a href="{{snippet.href}}">{{snippet.href}}</a>
 		{{snippet.text}}
 	</div>
-	
 </template>
 
 <template name="buttons">

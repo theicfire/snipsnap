@@ -75,19 +75,9 @@ Template.save_button.events({
 	}
 });
 
-Template.userinfo.feeds = function() {
-	var ret = [];
+Template.userinfo.users = function() {
 	var user = Users.findOne({user_id:Meteor.userId()});
-
-	if (user) {
-		if (user.feeds) {
-			user.feeds.forEach(function (feed) {
-				ret.push({feed: feed});
-			});
-		}
-	}
-	
-	return ret;
+	return user ? user.feeds : [];
 };
 
 Template.users.events({
