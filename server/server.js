@@ -86,6 +86,8 @@ Meteor.methods({
 		console.log('refresh!');
 
 		Users.find().forEach(function (user) {
+			// get_local_snippets(user);
+			get_all_remote_snippets(user);
 		});
 	},
 	save_snip: function (user_id, title, text, href){

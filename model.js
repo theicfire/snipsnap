@@ -14,3 +14,9 @@ SavedSnippets = new Meteor.Collection('savedsnippets');
 Users = new Meteor.Collection('appusers');
 //{ _id, user_id, name}
 // _id is hash(user_id)
+
+if (Meteor.isServer) {
+	Meteor.publish('snippets', function () {
+		return Snippet.find();
+	});
+}

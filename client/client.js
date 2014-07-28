@@ -35,11 +35,12 @@ var get_all_snippets = function () {
 	}
 	return Snippet.find({user_id: Session.get('username'),status: {$ne:'shared'}});
 };
+
 Template.sidebar_messages.snippet_sidebar_list = function() {
 	return get_all_snippets();
 };
 
-Template.first_snippet.user = function () {
+Template.first_snippet.snippet = function () {
 	return Session.get('current_snippet');
 };
 
@@ -48,19 +49,17 @@ Template.share_button.events({
 		// no green shows up
 		Session.set('clickedUsers',{});
 		Session.set('is_popup', true);
-
-		var snip = get_all_snippets().fetch()[0];
-		Session.set('current_snippet', snip);
 	}
 });
 
 Template.send_button.events({
 	'click li': function (evt) {
-		Session.set('is_popup', false);
 		var to_user_ids = Object.keys(Session.get('clickedUsers'));
-		console.log('SENDSHARE to', this, to_user_ids);
-		Meteor.call('share_snip', Session.get('current_snippet')._id, Session.get('username'), to_user_ids);
-		// TODO get a new current_snippet
+		Meteor.call('share_snip', Session.get('current_snippet')._id, Session.get('username'), to_user_ids, function() {
+			Session.set('is_popup', false);
+			var snip = Snippet.findOne({user_id: Session.get('username'),status: {$ne:'shared'}});
+			Session.set('current_snippet', snip);
+		});
 	}
 });
 
@@ -71,8 +70,6 @@ Template.main_message.popup = function () {
 
 Template.save_button.events({
 	'click li': function (evt) {
-		console.log('clicked save');
-		console.log('current fetch', Session.get('current_snippet'));
 		var current_post = Session.get('current_snippet');
 		Meteor.call('save_snip',Session.get('username'), current_post.title, current_post.text, current_post.href);
 	}
@@ -83,7 +80,6 @@ Template.userinfo.feeds = function() {
 	var user = Users.findOne({user_id:Meteor.userId()});
 
 	if (user) {
-		console.log(user);
 		if (user.feeds) {
 			user.feeds.forEach(function (feed) {
 				ret.push({feed: feed});
@@ -97,9 +93,7 @@ Template.userinfo.feeds = function() {
 Template.users.events({
 	'click button': function (evt) {
 		var username = this.user;
-		console.log(username);
 		Session.set('username', username);
-		
 	}
 });
 
@@ -130,7 +124,6 @@ Template.buttons.events({
 
 Template.friends_list.events({
 	'click button.user': function (evt) {
-		console.log('click here', this);
 		// toggle state of this.user in users to send
 		var clickedUsers = Session.get('clickedUsers');
 		if (clickedUsers[this.user_id]) {
@@ -159,4 +152,11 @@ Deps.autorun(function (){
 	if (Meteor.userId() && Meteor.user()) {
 		Meteor.call('add_user',Meteor.userId(),Meteor.user().profile.name);
 	}
+});
+
+Deps.autorun(function() {
+	// When snippets is loaded; need publish for some reason here
+	Meteor.subscribe('snippets', function () {
+		Session.set('current_snippet', Snippet.findOne({user_id: Session.get('username'),status: {$ne:'shared'}}));
+	});
 });

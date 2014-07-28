@@ -46,15 +46,7 @@
 </template>
 
 <template name='snippetList'>
-	<!-- 
-	<div>
-		My id is {{id}} and my name is {{name}}
-	</div>
-	<div class='snippetList'>
-		{{#each snippets}}
-			{{> snippet}}
-		{{/each}}
-	</div> -->
+
 </template>
 
 
@@ -63,22 +55,13 @@
 	{{text}}
 	<div class='snippetItem'>
 		<h3>{{title}}</h3><a href="{{href}}">{{href}}</a>
-		<!-- <p>{{text}}</p>
-		<p>{{user_path}}</p>
-		<button class="save_button">Save</button>
-		<button class='share_button'>Share</button>
-		{{> friends_list}}
-		<button class='send_share_button'>Send!</button> -->
 	</div>
 </template>
 
 <template name='friends_list'>
-
-<!-- {{#if clicked}} -->
 	{{#each friends}}
 		<button data-name='{{user}}' class='user {{button_class}}'>share to {{name}}</button>
 	{{/each}}
-<!-- {{/if}} -->
 </template>
 
 <template name="users">
@@ -91,8 +74,8 @@ Log in as user:
 <template name="first_snippet">
 	
 	<div class='snippetItem'>
-		<h3>{{user.title}}</h3><a href="{{user.href}}">{{href}}</a>
-		{{user.text}}
+		<h3>{{snippet.title}}</h3><a href="{{snippet.href}}">{{snippet.href}}</a>
+		{{snippet.text}}
 	</div>
 	
 </template>
