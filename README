@@ -1,0 +1,4 @@
+Current State
+
+On refresh, sometimes there is the error "Uncaught ReferenceError: Snippet is not defined "
+ I think this is because my notion of "publish", "subscribe", and "ready()" is wrong. I don't fully understand it.
